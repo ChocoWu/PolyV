@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="we present PolyV, a unified LVM that achieves cross-vision synergy (i.e., image, video and 3D) at both the architectural and training levels.">
+    <meta name="keywords" content="PolyV, unified large vision model, cross-vision synergy, image understanding, video understanding, 3D understanding, Mixture-of-Experts, dynamic modality router, synergy-aware training paradigm, knowledge distillation, object-level alignment, relation-level alignment">
+    <meta property="og:title" content="✨Modeling Cross-vision Synergy for Unified Large Vision Model">
+    <meta property="og:description" content="✈️we present PolyV, a unified LVM that achieves cross-vision synergy (i.e., image, video and 3D) at both the architectural and training levels. ">
+    <meta property="og:image" content="static/images/icon.png">
+    <meta property="og:url" content="https://sqwu.top/PolyV/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PolyV">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:locale:alternate" content="zh_CN">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="✨Modeling Cross-vision Synergy for Unified Large Vision Model">
+    <meta name="twitter:description" content="✈️we present PolyV, a unified LVM that achieves cross-vision synergy (i.e., image, video and 3D) at both the architectural and training levels.">
+    <meta name="twitter:site" content="@SQWu_Tori">
+    <meta name="twitter:creator" content="@SQWu_Tori">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>PolyV</title>
+
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
+        gtag('js', new Date());
+
+        gtag('config', 'G-PYVRSFMDRL');
+    </script>
+
+    <link href="https://fonts.cdnfonts.com/css/caveat" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+          rel="stylesheet">
+    <link rel="stylesheet" href="./static/css/bulma.min.css">
+    <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+    <link rel="stylesheet" href="./static/css/index.css">
+
+    <link rel="stylesheet" href="./static/css/index-gradio.css">
+    <link rel="stylesheet" href="./static/css/live_theme.css">
+
+    <style>
+        @import url('https://fonts.cdnfonts.com/css/caveat');
+    </style>
+
+    <script defer src="./static/js/fontawesome.all.min.js"></script>
+    <script src="./static/js/index.js"></script>
+    <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+
+    <style>
+         .scroll-container {
+            height: 600px; /* 设置可视高度 */
+            overflow-y: auto;
+            /* border: 1px solid #ccc; */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            table-layout: fixed; /* 让列宽固定 */
+        }
+        th, td {
+            border: 1px solid black;
+            text-align: center;
+        }
+        thead th {
+            position: sticky;
+            top: 0;
+            background-color: white;
+            z-index: 1;
+        }
+        .col1 { width: 300px; }
+        .col2 { width: 200px; }
+        .col3 { width: 200px; }
+        .col4 { width: 200px; }
+        .col5 { width: 700px; }
+
+        .highlightitem {
+            position: relative;
+            color: inherit;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.25s ease;
+        }
+        .highlightitem::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -2px;
+            width: 0;
+            height: 2px;
+            background: #f68946;
+            transition: width 0.3s ease;
+        }
+        .highlightitem:hover {
+            color: #f68946;
+        }
+        .highlightitem:hover::after {
+            width: 100%;
+        }
+    </style> 
+    
+</head>
+<body>
+
+
+<section class="hero">
+    <div class="hero-body">
+        <div class="container is-max-desktop">
+            <div class="columns is-centered">
+                <div class="column has-text-centered">
+                    <h1 class="title is-2 publication-title">Modeling Cross-vision Synergy for Unified Large Vision Model</h1>
+
+                    <div class="is-size-5 publication-authors">
+                        <span class="author-block">
+                            <a href="https://chocowu.github.io/">Shengqiong Wu</a><sup>1</sup></span> &nbsp;
+                        <span class="author-block">
+                            <a href="https://lanhoong.github.io/">Lanhu Wu</a><sup>1</sup></span> &nbsp;
+                        <span class="author-block">
+                            <a href="https://sqwu.top/PolyV/">Mingyang Bao</a><sup>1</sup></span> &nbsp;
+                        <span class="author-block">
+                            <a href="https://sqwu.top/PolyV/">Wenhao Xu</a><sup>1</sup> </span> &nbsp;
+                        <span class="author-block">
+                            <a href="https://scholar.google.com/citations?user=YG0DFyYAAAAJ">Hanwang Zhang</a><sup>2</sup> </span> &nbsp;
+                        <br>
+                        <span class="author-block">
+                            <a href="https://yanshuicheng.info/">Shuicheng Yan</a><sup>1</sup> </span> &nbsp;
+                        <span class="author-block">
+                            <a href="https://haofei.vip/">Hao Fei</a><sup>1, &#9993;</sup> </span> &nbsp;
+                        <span class="author-block">
+                            <a href="https://www.chuatatseng.com/">Tat-Seng Chua</a><sup>1</sup></span> &nbsp;
+                    </div>
+                    <div class="is-size-5 publication-authors" style="margin-top: 10px;">
+                        <span class="author-block"><b style="color:#f68946; font-weight:normal">▶ </b><sup>1</sup>ational University of Singapore</span> &nbsp;
+                        <span class="author-block"><b
+                                style="color:#008AD7; font-weight:normal">▶ </b><sup>2</sup>Nanyang Technological University</span> &nbsp;
+                    </div>
+
+                    <div class="is-size-5 publication-authors">
+                        <span class="author-block" style="font-size: 15px;"><sup>&#9993;</sup>(Correspondence)</span>
+                    </div>
+
+                    <div class="column has-text-centered">
+                        <div class="publication-links">
+                            <!-- PDF Link. -->
+                            <span class="link-block">
+                                <a href="https://arxiv.org/pdf/2603.03564" class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon"> <i class="fas fa-file-pdf"></i> </span>
+                                    <span>Paper</span>
+                                </a>
+                            </span>
+                            <!-- <span class="link-block">
+                                <a href="https://huggingface.co/papers/2511.20563" class="external-link button is-normal is-rounded is-dark">
+                                    <span class="icon"> <img src="static/images/hf.png"></span>
+                                    <span>Code</span>
+                                </a>
+                            </span> -->
+                            <span class="link-block">
+                                <a href="https://github.com/ChocoWu/PolyV"
+                                class="external-link button is-normal is-rounded is-dark">
+                                <span class="icon">
+                                    <i class="fab fa-github"></i>
+                                </span>
+                                <span>Coming Soon</span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section" style="background-color: rgb(245,245,245);">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-full-width">
+                <h2 class="title is-2">Abstract</h2>
+                <div class="content has-text-justified">
+                    <p  class="content has-text-justified">
+                        Recent advances in large vision models (LVMs) have shifted from modality-specific designs toward unified architectures that jointly process images, videos, and 3D data. However, existing unified LVMs primarily pursue functional integration, while overlooking the deeper goal of cross-vision synergy: the ability to reason over complementary priors across visual modalities. To address this, we present <span class="highlightitem">PolyV</span>, a unified LVM that achieves cross-vision synergy at both the architectural and training levels. Architecturally, <span class="highlightitem">PolyV</span> adopts a sparse Mixture-of-Experts LVM coordinated by a dynamic modality router, allowing each expert to specialize in modality-specific priors while enabling bidirectional interaction and mutual refinement across modalities. Training-wise, a synergy-aware paradigm combines modality-specific pretraining with coarse-to-fine synergy tuning via knowledge distillation and object-/relation-level alignment. Extensive experiments on 10 benchmarks spanning image, video, and 3D understanding, including synergy-focused datasets requiring spatial or temporal priors, demonstrate that <span class="highlightitem">PolyV</span> consistently outperforms existing models, achieving over 10% average improvement over its backbone. Overall, <span class="highlightitem">PolyV</span> establishes a unified framework for synesthetic visual reasoning, advancing toward truly synergistic LVMs. 
+                    </p>
+                    
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="section">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-full-width">
+                <h2 class="title is-2">Method</h2>
+                <div class="content has-text-justified">
+                    <p  class="content has-text-justified">
+                         As illustrated in <a href="#fig1">Figure 1</a>, existing unified LVMs still fall short of achieving true crossvision synergy, that is, synesthetic reasoning across visual modalities, analogous to the human synesthetic visual system. For instance, temporal and motion priors from videos could inform dynamic inference in static images, while 3D geometric priors could enhance spatial reasoning in videos. Consequently, two critical challenges remain underexplored: (i) <em>the lack of synergy-oriented architectural design</em> and (ii) <em>the absence of training strategies that foster cross-vision interaction</em>.
+                    </p>
+                    <div class="content has-text-justified" id="fig1"> 
+                        <img class="columns is-centered has-text-centered" src="./static/images/motivation.png" alt="Teaser" width="60%" style="display: block; margin:0 auto">
+                        <br>
+                        <figcaption>
+                            <p style="text-align: left;">
+                                <font color="061E61">
+                                    <b>Figure 1: </b>  (a) Human perception integrates visual, spatial, and temporal cues synergistically, enabling reasoning across modalities. (b) Examples illustrate such synergy, inferring motion from static images and transferring 3D priors to improve video understanding.
+                                </font>
+                            </p>
+                        </figcaption>
+                    </div>
+
+                    <p  class="content has-text-justified">
+                         Motivated by the goal of achieving cross-vision synergistic learning, that is, fully exploiting the complementary and distinctive information across visual modalities, we design <span class="highlightitem">PolyV</span>, as illustrated in <a href="#fig2">Figure 2</a>. The model comprises a universal vision encoder, a word embedding layer, a projection layer, and multiple stacked LLM blocks integrated with MoE blocks.
+                    </p>
+                    <div class="content has-text-justified" id="fig2"> 
+                        <img class="columns is-centered has-text-centered" src="./static/images/method.png" alt="Teaser" width="50%" style="display: block; margin:0 auto">
+                        <br>
+                        <figcaption>
+                            <p style="text-align: left;">
+                                <font color="061E61">
+                                    <b>Figure 2: </b> An illustration of <span class="highlightitem">PolyV</span>, where an MoE architecture is designed to enable synergistic learning across image, video, and 3D modalities. Fire denotes the trainable parameters.
+                                </font>
+                            </p>
+                        </figcaption>
+                    </div>
+                    <p class="content has-text-justified">
+                        The training strategy of <span class="highlightitem">PolyV</span> is designed to foster cross-vision synergy at multiple levels, as illustrated in <a href="#fig3">Figure 3</a>. 
+                        <ul>
+                            <li><b>Modality-specific pretraining</b>: We first perform supervised training on each modality separately, using large-scale datasets to learn modality-specific priors. This stage ensures that each expert in the MoE architecture develops a strong foundation in its respective modality.</li>
+                            <li><b>Coarse-grained synergy tuning</b>: We then introduce a synergy-aware training paradigm that encourages interaction between modalities. This involves knowledge distillation from video and 3D foundation models, allowing the MoE-LLM to distill temporal and geometric priors into its representations.</li>
+                            <li><b>Fine-grained alignment</b>: Finally, we perform object-level and relation-level alignment across modalities, using carefully designed loss functions to encourage the model to learn synergistic representations that capture complementary information across modalities, as shown in <a href="#fig4">Figure 4</a>.
+                            </li>
+                        </ul>
+                    </p>
+                    <div class="content has-text-justified" id="fig3"> 
+                        <img class="columns is-centered has-text-centered" src="./static/images/training.png" alt="Teaser" width="85%"
+                                style="display: block; margin:0 auto">
+                        <br>
+                        <figcaption>
+                            <p style="text-align: left;">
+                                <font color="061E61">
+                                    <b>Figure 3: </b>Illustration of detailed training stages. Stage-1(-1/2) focuses on enabling model understanding of each vision modality. Stage-2(-1): introduces coarse-grained synergistic learning, where a video and 3D foundation model distill temporal and geometric priors into the MoE-LLM.
+                                </font>
+                            </p>
+                        </figcaption>
+                    </div>
+                    <div class="content has-text-justified" id="fig4"> 
+                        <img class="columns is-centered has-text-centered" src="./static/images/alignment.png" alt="Teaser" width="85%" style="display: block; margin:0 auto">
+                        <br>
+                        <figcaption>
+                            <p style="text-align: left;">
+                                <font color="061E61">
+                                    <b>Figure 4: </b>Illustration of cross-vision synergy question-answer pairs. 
+                                </font>
+                            </p>
+                        </figcaption>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<section class="section" style="background-color: rgb(245,245,245);">
+    <div class="container is-max-desktop">
+        <div class="columns is-centered has-text-centered">
+            <div class="column is-full-width">
+                <h2 class="title is-2">Performance</h2>
+                <div class="content has-text-justified">
+                    <h4 class="title is-4">Main Results in Image, Video and 3D Understanding</h4>
+                    <p  class="content has-text-justified">
+                          As shown in <a href="#fig5">Figure 5</a> and <a href="#fig6">Figure 6</a>, <span class="highlightitem">PolyV</span> consistently achieves the best overall performance across all image understanding benchmarks, outperforming its backbone Qwen2.5-VL-7B by about 10% on average. on CVBench, which emphasizes spatial consistency and relational reasoning across frames, <span class="highlightitem">PolyV</span> exhibits substantial gains over all baselines, underscoring its ability to transfer spatial and temporal priors across modalities effectively. <span class="highlightitem">PolyV</span> consistently outperforms its backbone and prior 3D reasoning models, including video-based VLMs and 3DRS.
+                    </p>
+                    <div class="content has-text-justified" id="fig5"> 
+                        <img class="columns is-centered has-text-centered" src="./static/images/results-1.png" alt="Teaser" width="85%"
+                                style="display: block; margin:0 auto">
+                        <br>
+                        <figcaption>
+                            <p style="text-align: left;">
+                                <font color="061E61">
+                                    <b>Figure 5: </b> Comparison of <span class="highlightitem">PolyV</span> with existing MLLMs on image and video understanding benchmarks. All models are evaluated under the official benchmark metrics, and average scores are reported. Improvements over the backbone Qwen2.5-VL-7B are marked in <span style="color: red;">red</span>.
+                                </font>
+                            </p>
+                        </figcaption>
+                    </div>
+                    
+                    <div class="content has-text-justified" id="fig6"> 
+                        <img class="columns is-centered has-text-centered" src="./static/images/results-2.png" alt="Teaser" width="85%"
+                                style="display: block; margin:0 auto">
+                        <br>
+                        <figcaption>
+                            <p style="text-align: left;">
+                                <font color="061E61">
+                                    <b>Figure 6: </b>Evaluation of 3D question-answering. General 2D VLMs are evaluated in a zero-shot setting. Improvements over the backbone Qwen2.5-VL-7B are marked in <span style="color: red;">red</span>.
+                                </font>
+                            </p>
+                        </figcaption>
+                    </div>
+                    
+
+                    <h4 class="title is-4">Case Visualization</h4>
+                    <p  class="content has-text-justified">
+                         <a href="#fig7">Figure 7</a> presents qualitative examples across diverse visual reasoning tasks. In Cases 1 and 3, <span class="highlightitem">PolyV</span> accurately interprets object orientation and viewpoint relations in image-based and multi-view spatial reasoning. In Case 2, focusing on video temporal and spatial understanding, it correctly infers that no spatial state changes occur. Finally, in Case 4, <span class="highlightitem">PolyV</span> effectively identifies key spatial cues in 3D environments, producing coherent responses.
+                    </p>
+                    <div class="content has-text-justified" id="fig7"> 
+                        <img class="columns is-centered has-text-centered" src="./static/images/case.png" alt="Teaser" width="85%"
+                                style="display: block; margin:0 auto">
+                        <br>
+                        <figcaption>
+                            <p style="text-align: left;">
+                                <font color="061E61">
+                                    <b>Figure 7: </b>Qualitative comparisons between <span class="highlightitem">PolyV</span> and existing models. Case 1 is from MMSI-Bench, Case 2 from DSI-Bench, Case 3 from VSI-Bench, and Case 4 from Open-EQA (HM3D).
+                                </font>
+                            </p>
+                        </figcaption>
+                    </div>
+
+                </div>
+            </div>
+        </div>  
+    </div>
+</section>
+
+
+<section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+        <h2 class="title">BibTeX</h2>
+        <pre><code>@article{wu2026polyv,
+  title={Modeling Cross-vision Synergy for Unified Large Vision Model},
+  author={Shengqiong Wu, Lanhu Wu, Mingyang Bao, Wenhao Xu, Hanwang Zhang, Shuicheng Yan, Hao Fei, Tat-Seng Chua},
+  journal={arXiv preprint arXiv:2603.03564},
+  year={2026}
+}
+</code></pre>
+    </div>
+</section>
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="columns is-centered">
+            <div class="column is-8">
+                <div class="content">
+                    <p style="text-align: center;">
+                        The webpage is built based on <a href="https://next-gpt.github.io/">NExT-GPT</a>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+</body>
+</html>
